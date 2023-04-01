@@ -1,38 +1,35 @@
 #!/usr/bin/env python3
 
-import sys
-import time
+""" Factor numbers """
 
-def factorize(n):
-    """
-    Factorize a number n into two smaller numbers.
-    """
-    for i in range(2, n):
-        if n % i == 0:
-            return i, n // i
-    return None
+# Importing necessary modules
+from sys import argv
+from math import sqrt
 
-def factorize_file(filename):
-    """
-    Factorize a list of numbers from a file and print the factorization for each number.
-    """
-    with open(filename, 'r') as f:
-        numbers = [int(line.strip()) for line in f.readlines()]
+# Function to open and read file
+def open_read_file(file_name):
+    """Reads a file, adds each number to an array, and returns the array"""
+    with open(file_name, "r", encoding="utf-8") as file:
+        lines = file.readlines()
+    number_to_factor = []
+    for line in lines:
+        number_to_factor.append(int(line))
+    return number_to_factor
 
-    for n in numbers:
-        start_time = time.monotonic()
-        factors = factorize(n)
-        elapsed_time = time.monotonic() - start_time
+# Function to factorize a number
+def find_and_times(n):
+    """Factors a given number n and prints the result"""
+    for i in range(1, n):
+        if n == ((n // i) * i):
+            print("{}={}*{}".format(n, (n // i), i))
+            break
 
-        if factors is None:
-            print(f"Could not factorize {n}")
-        else:
-            print(f"{n}={factors[0]}*{factors[1]} (elapsed time: {elapsed_time:.6f}s)")
+# Function to factorize a list of numbers
+def fac_list(ls):
+    """Factors each number in the given list"""
+    for i in ls:
+        find_and_times(i)
 
-if __name__ == '__main__':
-    if len(sys.argv) < 2:
-        print("Usage: factors <file>")
-        exit(1)
-
-    filename = sys.argv[1]
-    factorize_file(filename)
+# Check if the filename is given in the command line arguments
+if len(argv) == 2:
+    fac_list(open_read_file(argv[1]))
