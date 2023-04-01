@@ -1,14 +1,13 @@
 #!/usr/bin/env python3
-
 """ Factor numbers """
 
-# Importing necessary modules
 from sys import argv
 from math import sqrt
 
-# Function to open and read file
 def open_read_file(file_name):
-    """Reads a file, adds each number to an array, and returns the array"""
+    """read from file
+    add to array
+    """
     with open(file_name, "r", encoding="utf-8") as file:
         lines = file.readlines()
     number_to_factor = []
@@ -16,20 +15,24 @@ def open_read_file(file_name):
         number_to_factor.append(int(line))
     return number_to_factor
 
-# Function to factorize a number
 def find_and_times(n):
-    """Factors a given number n and prints the result"""
-    for i in range(1, n):
-        if n == ((n // i) * i):
-            print("{}={}*{}".format(n, (n // i), i))
-            break
+    """find and print the factors of n"""
+    # start by trying to divide n by 2
+    i = 2
+    while i <= sqrt(n):
+        if n % i == 0:
+            print("{}={}*{}".format(n, i, n//i))
+            return
+        i += 1
+    # if we haven't found any factors yet, n must be prime
+    print("{}={}*{}".format(n, n, 1))
 
-# Function to factorize a list of numbers
 def fac_list(ls):
-    """Factors each number in the given list"""
+    """factor each
+    num in ls
+    """
     for i in ls:
         find_and_times(i)
 
-# Check if the filename is given in the command line arguments
 if len(argv) == 2:
     fac_list(open_read_file(argv[1]))
